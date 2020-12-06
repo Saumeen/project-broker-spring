@@ -22,6 +22,7 @@ public class UserServiceImpl implements UserService {
 		UserAuth userAuthExits = new UserAuth();
 		try {
 			User user = userRepository.findByUserNameAndPassWord(userAuth.getUsername(), userAuth.getPassword());
+			log.info("Found :: "+user.toString());
 			if (user != null) {
 				userAuthExits.setUsername(user.getUserName());
 				userAuthExits.setEmail(user.getEmail());
@@ -41,7 +42,8 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserAuth addUser(UserAuth userAuth) {
 		User user = userRepository.findByUserNameAndPassWord(userAuth.getUsername(), userAuth.getPassword());
-		if (user != null) {
+		
+		if (user == null) {
 			User usertemp = new User();
 			usertemp.setEmail(userAuth.getEmail());
 			usertemp.setUserName(userAuth.getUsername());
