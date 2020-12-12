@@ -27,10 +27,10 @@ public class UserServiceImpl implements UserService {
 				userAuthExits.setUsername(user.getUserName());
 				userAuthExits.setEmail(user.getEmail());
 				userAuthExits.setExits(true);
-				userAuthExits.setMessage("Exits!!");
+				
 			} else {
 				userAuthExits.setExits(false);
-				userAuthExits.setMessage("Not exits!!");
+			
 			}
 
 		} catch (Exception e) {
