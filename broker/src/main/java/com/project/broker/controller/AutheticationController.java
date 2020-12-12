@@ -60,7 +60,7 @@ public class AutheticationController {
 		String message;
 		try {
 
-			UserAuth user = userService.isUserExits(userAuth);
+			UserAuth user = userService.isLoginUser(userAuth);
 			log.info(user.toString());
 			if (user.isExits()) {
 				message = USER_EXITS;

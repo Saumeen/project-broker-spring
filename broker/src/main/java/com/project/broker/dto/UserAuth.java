@@ -9,4 +9,5 @@ public class UserAuth {
 	private String email;
 	private String password;
 	private boolean isExits;
+	private boolean isLogin;
 }

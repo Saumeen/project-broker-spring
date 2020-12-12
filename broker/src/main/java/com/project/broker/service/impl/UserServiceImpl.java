@@ -1,5 +1,8 @@
 package com.project.broker.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,40 +21,53 @@ public class UserServiceImpl implements UserService {
 	UserRepository userRepository;
 
 	@Override
-	public UserAuth isUserExits(UserAuth userAuth) {
-		UserAuth userAuthExits = new UserAuth();
+	public boolean isUserExits(UserAuth userAuth) {
+
+		boolean isExits = false;
 		try {
 			User user = userRepository.findByUserNameAndPassWord(userAuth.getUsername(), userAuth.getPassword());
-			log.info("Found :: "+user.toString());
+			log.info("Found :: " + user.toString());
+
 			if (user != null) {
-				userAuthExits.setUsername(user.getUserName());
-				userAuthExits.setEmail(user.getEmail());
-				userAuthExits.setExits(true);
-				
-			} else {
-				userAuthExits.setExits(false);
-			
+				isExits = true;
 			}
 
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}
-		return userAuthExits;
+		return isExits;
 	}
 
 	@Override
-	public UserAuth addUser(UserAuth userAuth) {
+	public UserAuth addUser(UserAuth userAuth) throws Exception {
 		User user = userRepository.findByUserNameAndPassWord(userAuth.getUsername(), userAuth.getPassword());
-		
+
 		if (user == null) {
 			User usertemp = new User();
 			usertemp.setEmail(userAuth.getEmail());
 			usertemp.setUserName(userAuth.getUsername());
 			usertemp.setPassWord(userAuth.getPassword());
 			userRepository.save(usertemp);
+		}else {	
+				throw new Exception("User Exits Already!!");
 		}
 		return userAuth;
 
+	}
+
+	@Override
+	public UserAuth isLoginUser(UserAuth userAuth) {
+		UserAuth userAuthExits = new UserAuth();
+
+		if (isUserExits(userAuth)) {
+			userAuthExits.setUsername(userAuth.getUsername());
+			userAuthExits.setEmail(userAuth.getEmail());
+			userAuthExits.setExits(true);
+		} else {
+			userAuthExits.setExits(false);
+		}
+
+		return userAuthExits;
 	}
 
 }
