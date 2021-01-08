@@ -10,7 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @EnableDiscoveryClient
 @SpringBootApplication
-@RibbonClient("project-broker-api")
+//@RibbonClient("project-broker-api")
 public class BrokerApplication {
 
 	public static void main(String[] args) {
