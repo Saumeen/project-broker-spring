@@ -1,14 +1,14 @@
 package com.project.broker.service;
 
-import java.util.List;
-
 import com.project.broker.dto.UserAuth;
+
 
 public interface UserService {
 	
-	public UserAuth isLoginUser(UserAuth userauth);
-	public boolean isUserExits(UserAuth userauth);
+	public void addUser(UserAuth userAuth) throws  Exception;	
 	
-	public UserAuth addUser(UserAuth userAuth) throws Exception;
+	public UserAuth isValid(String username,String password);
+	
+	
 
 }

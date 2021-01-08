@@ -3,17 +3,13 @@
  */
 package com.project.broker.controller;
 
-import java.util.HashMap;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.core.env.Environment;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import static com.project.broker.constant.Constant.*;
 
 import com.project.broker.dto.ResponseDTO;
 import com.project.broker.dto.UserAuth;
@@ -33,49 +29,42 @@ public class AutheticationController {
 
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	private Environment environment;
+	 
+	
+
+	@GetMapping("/check")
+	public String check() {
+		
+		return "Working on port "+ environment.getProperty("local.server.port") ;
+	}
 
 	@PostMapping("/addUser")
-	public ResponseEntity<ResponseDTO> signupDetails(@RequestBody UserAuth userAuth) {
+	public ResponseDTO signupDetails(@RequestBody UserAuth userAuth) {
 		log.info("Executing addItem method");
-		HashMap<String, Object> map = new HashMap<String, Object>();
+
 		try {
-
-			UserAuth user = userService.addUser(userAuth);
-
-			map.put(RESPONSE, user);
-
-			return ResponseEntity.status(HttpStatus.OK)
-					.body(new ResponseDTO(HttpStatus.OK.value(), true, ADDED_MEG, map));
+			userService.addUser(userAuth);
 		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			return ResponseEntity.status(HttpStatus.OK)
-					.body(new ResponseDTO(HttpStatus.OK.value(), false, e.getMessage(), map));
-
+			log.error("Error -> {}", e.getMessage());
+			return new ResponseDTO(200, false, "User not added!!", null);
 		}
+
+		return new ResponseDTO(200, true, "User Added", null);
+
 	}
 
-	@PostMapping("/login")
-	public ResponseEntity<ResponseDTO> loginDetails(@RequestBody UserAuth userAuth) {
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		String message;
-		try {
+	@PostMapping("/loginUser")
+	public ResponseDTO loginUserValidation(@RequestBody UserAuth userAuth) {
 
-			UserAuth user = userService.isLoginUser(userAuth);
-			log.info(user.toString());
-			if (user.isExits()) {
-				message = USER_EXITS;
-			} else {
-				message = USER_NOT_EXITS;
-			}
-			map.put(RESPONSE, user);
+		UserAuth user = userService.isValid(userAuth.getUsername(), userAuth.getPassword());
 
-			return ResponseEntity.status(HttpStatus.OK)
-					.body(new ResponseDTO(HttpStatus.OK.value(), true, message, map));
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			return ResponseEntity.status(HttpStatus.OK)
-					.body(new ResponseDTO(HttpStatus.OK.value(), false, e.getMessage(), map));
-
+		if (user == null) {
+			return new ResponseDTO(200, false, "Not Found User!!", "");
 		}
+		return new ResponseDTO(200, true, "User found!!", user);
 	}
+
 }

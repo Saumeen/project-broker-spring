@@ -9,13 +9,11 @@ import lombok.Data;
 public class User {
 
 	@Id
-	private long userId;
+	private String userId;
 
-	private String userName;
-	private String passWord;
+	private String username;
+	private String password;
 	private String email;
-	private boolean isLogin;
-
 	
 
 }

@@ -7,8 +7,9 @@ import com.project.broker.model.User;
 
 @EnableMongoRepositories
 public interface UserRepository extends MongoRepository<User, Long> {
+
+	public User findByUsername(String username);
 	
-	
-	public User findByUserNameAndPassWord(String username,String password);
+	public User findByUsernameAndPassword(String username,String password);
 
 }
