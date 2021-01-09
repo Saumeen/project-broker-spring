@@ -6,10 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.broker.dto.RoleDto;
-import com.project.broker.model.Privilege;
-import com.project.broker.model.Role;
+import com.project.broker.model.PrivilegeModel;
+import com.project.broker.model.RoleModel;
+import com.project.broker.model.UserRolePrivilegeModel;
 import com.project.broker.repository.PrivilegeRepository;
 import com.project.broker.repository.RoleRepository;
+import com.project.broker.repository.UserRolePrivilegeRepository;
 import com.project.broker.service.RolePrivilageService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -23,67 +25,39 @@ public class RolePrivilageServiceImpl implements RolePrivilageService {
 
 	@Autowired
 	private PrivilegeRepository privilegeRepo;
-	
+
+	@Autowired
+	private UserRolePrivilegeRepository userRolePrivilegeRepo;
+
 	@Override
 	public void addRole(RoleDto roleDto) {
-		
-		Role role= roleRepository.findByRoleName(roleDto.getRoleName());
-		if(role == null ) {
-			role = new Role();
+
+		RoleModel role = roleRepository.findByRoleName(roleDto.getRoleName());
+		if (role == null) {
+			role = new RoleModel();
 			role.setRoleName(roleDto.getRoleName());
-			for(String pri :roleDto.getPrivilages()){
-				Privilege privilegeTemp = privilegeRepo.findByPrivilageName(pri);
-				if(privilegeTemp == null) {
-					privilegeTemp = new Privilege();
-					
+			for (String pri : roleDto.getPrivilages()) {
+				PrivilegeModel privilegeTemp = privilegeRepo.findByPrivilageName(pri);
+				UserRolePrivilegeModel userRolePrivilegeModel = new UserRolePrivilegeModel();
+				if (privilegeTemp == null) {
+
+					privilegeTemp = new PrivilegeModel();
 					privilegeTemp.setPrivilageName(pri);
-					role.addPrivilege(privilegeTemp);
-					
+
+					userRolePrivilegeModel.setPrivilage(privilegeTemp);
+
+				} else {
+					userRolePrivilegeModel.setPrivilage(privilegeTemp);
+
 				}
-				else {
-					role.addPrivilege(privilegeTemp);
-				}
-				
-				log.info("{}",role.getPrivilege().toArray());
+
+				userRolePrivilegeModel.setRole(role);
+				userRolePrivilegeRepo.save(userRolePrivilegeModel);
+
 			}
-			roleRepository.save(role);
+
 		}
-		
-		//roleRepository.save(role);
-		
-		
 
-//		try {
-//
-//			Role roleDtoTemp = roleRepository.findByRoleName(roleDto.getRoleName());
-//			if (roleDtoTemp == null) {
-//				roleDtoTemp = new Role();
-//				roleDtoTemp.setRoleName(roleDto.getRoleName());
-//				//roleDtoTemp.setPrivilege(roleDtoTemp.getPrivilege());
-//				roleRepository.save(roleDtoTemp);
-//
-//			}
-//
-//			Role save = roleRepository.save(roleDtoTemp);
-//			log.info("Saved Role :: {}  List :: {}", save.toString(), save.getPrivilege());
-//
-//		} catch (Exception e) {
-//			log.error(e.getMessage());
-//		}
-	}
-
-	@Override
-	public List<RoleDto> getAllRoles() {
-		return null;
-
-		
-	}
-
-	@Override
-	public List<String> getPrivilageByRole(String roleName) {
-		return null;
-		
-		
 	}
 
 }

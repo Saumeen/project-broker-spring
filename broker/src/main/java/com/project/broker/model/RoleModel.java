@@ -11,9 +11,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
-@Entity(name = "role")
-public class Role {
+@Entity(name = "bk_role")
+public class RoleModel {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,10 +24,16 @@ public class Role {
 	@Column(name = "role_name")
 	private String roleName;
 
-	@ManyToMany(mappedBy = "role",cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-	private Set<Privilege> privilege = new HashSet<>();
+	//@ManyToMany(mappedBy = "role",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "role", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	private Set<UserRolePrivilegeModel> userRolePrivilegeModels = new HashSet<>();
 	
 	
+	
+	//@ManyToMany(mappedBy = "userRole",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	
+	//private Set<UserModel> user = new HashSet<>();
+
 	/**
 	 * @return the roleIdPK
 	 */
@@ -55,20 +62,23 @@ public class Role {
 		this.roleName = roleName;
 	}
 
+	
+
 	/**
-	 * @return the privilege
+	 * @return the userRolePrivilegeModels
 	 */
-	public Set<Privilege> getPrivilege() {
-		return privilege;
+	public Set<UserRolePrivilegeModel> getUserRolePrivilegeModels() {
+		return userRolePrivilegeModels;
 	}
 
 	/**
-	 * @param privilege the privilege to set
+	 * @param userRolePrivilegeModels the userRolePrivilegeModels to set
 	 */
-	public void addPrivilege(Privilege privilege) {
-		this.privilege.add(privilege);
-		privilege.getRole().add(this);
+	public void setUserRolePrivilegeModels(Set<UserRolePrivilegeModel> userRolePrivilegeModels) {
+		this.userRolePrivilegeModels = userRolePrivilegeModels;
 	}
+
+	
 
 
 }

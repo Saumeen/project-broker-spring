@@ -3,10 +3,10 @@ package com.project.broker.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.project.broker.model.Privilege;
+import com.project.broker.model.PrivilegeModel;
 
 @Repository
-public interface PrivilegeRepository extends JpaRepository<Privilege, Long> {
+public interface PrivilegeRepository extends JpaRepository<PrivilegeModel, Long> {
 
-	public Privilege findByPrivilageName(String name);
+	public PrivilegeModel findByPrivilageName(String name);
 }

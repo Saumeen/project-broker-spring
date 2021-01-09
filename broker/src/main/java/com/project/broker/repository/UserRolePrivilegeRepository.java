@@ -3,12 +3,9 @@ package com.project.broker.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.project.broker.model.RoleModel;
+import com.project.broker.model.UserRolePrivilegeModel;
 
 @Repository
-public interface RoleRepository extends JpaRepository<RoleModel,Long>{
+public interface UserRolePrivilegeRepository extends JpaRepository<UserRolePrivilegeModel, Long> {
 
-	public RoleModel findByRoleName(String roleName);
-	
-	
 }

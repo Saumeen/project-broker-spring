@@ -36,20 +36,16 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class AutheticationController {
 
-//	@Autowired
-//	UserService userService;
-//	
+	@Autowired
+	UserService userService;
 
-	
 	@Autowired
 	private Environment environment;
-	 
-	
 
 	@GetMapping("/check")
 	public String check() {
-		
-		return "Working on port "+ environment.getProperty("local.server.port") ;
+
+		return "Working on port " + environment.getProperty("local.server.port");
 	}
 
 	@PostMapping("/addUser")
@@ -57,7 +53,7 @@ public class AutheticationController {
 		log.info("Executing addItem method");
 
 		try {
-			//userService.addUser(userAuth);
+			userService.addUser(userAuth);
 		} catch (Exception e) {
 			log.error("Error -> {}", e.getMessage());
 			return new ResponseDTO(HttpStatus.OK.value(), false, "User not added!!", null);
@@ -70,16 +66,12 @@ public class AutheticationController {
 	@PostMapping("/loginUser")
 	public ResponseDTO loginUserValidation(@RequestBody UserAuth userAuth) {
 
-		UserAuth user =null; //userService.isValid(userAuth.getUsername(), userAuth.getPassword());
+		UserAuth user = userService.isValid(userAuth.getUsername(), userAuth.getPassword());
 
 		if (user == null) {
 			return new ResponseDTO(HttpStatus.OK.value(), false, "Not Found User!!", "");
 		}
 		return new ResponseDTO(HttpStatus.OK.value(), true, "User found!!", user);
 	}
-	
-	
-	
-	
-	
+
 }

@@ -31,16 +31,16 @@ public class Controller {
 	}
 	
 	
-	@GetMapping("/admin/getAllRole")
-	public ResponseDTO getAllRole() {
-		log.info("Get all role method called ...");
-		return new ResponseDTO(HttpStatus.OK.value(),true,"Successfully completed !!", rolePrivilageService.getAllRoles());
-	}
-	
-	@GetMapping("/admin/getPrivilageByRole/{role}")
-	public ResponseDTO getPrivilageByRole(@PathVariable String role) {
-		log.info("Role is {}",role);
-		return new ResponseDTO(HttpStatus.OK.value(),true,"Successfully completed !!",rolePrivilageService.getPrivilageByRole(role));
-	}
+//	@GetMapping("/admin/getAllRole")
+//	public ResponseDTO getAllRole() {
+//		log.info("Get all role method called ...");
+//		return new ResponseDTO(HttpStatus.OK.value(),true,"Successfully completed !!", rolePrivilageService.getAllRoles());
+//	}
+//	
+//	@GetMapping("/admin/getPrivilageByRole/{role}")
+//	public ResponseDTO getPrivilageByRole(@PathVariable String role) {
+//		log.info("Role is {}",role);
+//		return new ResponseDTO(HttpStatus.OK.value(),true,"Successfully completed !!",rolePrivilageService.getPrivilageByRole(role));
+//	}
 
 }
