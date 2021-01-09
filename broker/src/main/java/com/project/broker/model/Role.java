@@ -1,49 +1,74 @@
 package com.project.broker.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
-import org.springframework.data.mongodb.core.mapping.DBRef;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-@Document(collection = "role")
+@Entity(name = "role")
 public class Role {
 
-	private String id;
-	
-	@Column(name="role_name")
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "role_id")
+	private long roleIdPK;
+
+	@Column(name = "role_name")
 	private String roleName;
 
-	@OneToMany(mappedBy = "role", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@DBRef
-	private Set<Privilages> privilaes;
-
-	public String getId() {
-		return id;
+	@ManyToMany(mappedBy = "role",cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+	private Set<Privilege> privilege = new HashSet<>();
+	
+	
+	/**
+	 * @return the roleIdPK
+	 */
+	public long getRoleIdPK() {
+		return roleIdPK;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	/**
+	 * @param roleIdPK the roleIdPK to set
+	 */
+	public void setRoleIdPK(long roleIdPK) {
+		this.roleIdPK = roleIdPK;
 	}
 
+	/**
+	 * @return the roleName
+	 */
 	public String getRoleName() {
 		return roleName;
 	}
 
+	/**
+	 * @param roleName the roleName to set
+	 */
 	public void setRoleName(String roleName) {
 		this.roleName = roleName;
 	}
 
-	public Set<Privilages> getPrivilaes() {
-		return privilaes;
+	/**
+	 * @return the privilege
+	 */
+	public Set<Privilege> getPrivilege() {
+		return privilege;
 	}
 
-	public void setPrivilaes(Set<Privilages> privilaes) {
-		this.privilaes = privilaes;
+	/**
+	 * @param privilege the privilege to set
+	 */
+	public void addPrivilege(Privilege privilege) {
+		this.privilege.add(privilege);
+		privilege.getRole().add(this);
 	}
+
 
 }

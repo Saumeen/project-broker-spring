@@ -10,11 +10,12 @@ import lombok.Data;
 public class UserAuth {
 
 	private String username;
-	
+
 	private String email;
-	
+
 	@JsonInclude(Include.NON_NULL)
 	private String password;
-	
-	
+
+	private String roleName;
+
 }

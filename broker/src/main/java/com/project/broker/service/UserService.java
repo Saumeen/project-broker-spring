@@ -5,8 +5,20 @@ import com.project.broker.dto.UserAuth;
 
 public interface UserService {
 	
-	public void addUser(UserAuth userAuth) throws  Exception;	
+	/**
+	 * 
+	 * Add new user in the system
+	 * @param userAuth
+	 * @throws Exception
+	 */
+	public void addUser(UserAuth userAuth);	
 	
+	/**
+	 * For Login Authenticate User
+	 * @param username
+	 * @param password
+	 * @return
+	 */
 	public UserAuth isValid(String username,String password);
 	
 	
