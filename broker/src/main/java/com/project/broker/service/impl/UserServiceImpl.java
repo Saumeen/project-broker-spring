@@ -1,5 +1,6 @@
 package com.project.broker.service.impl;
 
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,8 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	UserRolePrivilegeRepository userRolePrivilegeRepository;
+	
+	
 
 	@Override
 	public void addUser(UserAuth userAuth) {
@@ -45,7 +48,7 @@ public class UserServiceImpl implements UserService {
 			userModel.setEmail(userAuth.getEmail());
 			userModel.setUsername(userAuth.getUsername());
 			userModel.setPassword(new BCryptPasswordEncoder().encode(userAuth.getPassword()));
-
+			userModel.setContactno(userAuth.getContactno());
 			RoleModel roleModel = roleRepository.findByRoleName(userAuth.getRoleName());
 			if (roleModel == null) {
 				throw new CustomRuntimeException("Role not exits !!");
@@ -68,7 +71,6 @@ public class UserServiceImpl implements UserService {
 
 		log.info("Username :: {} pasword :: {} encoed pasword --> {}", username, password);
 		UserModel user = userRepository.findByUsername(username);
-
 		if (user != null && new BCryptPasswordEncoder().matches(password, user.getPassword())) {
 			UserAuth userAuth = new UserAuth();
 			userAuth.setUsername(user.getUsername());

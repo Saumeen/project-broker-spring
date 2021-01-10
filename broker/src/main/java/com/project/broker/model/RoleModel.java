@@ -24,15 +24,12 @@ public class RoleModel {
 	@Column(name = "role_name")
 	private String roleName;
 
-	//@ManyToMany(mappedBy = "role",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@OneToMany(mappedBy = "role", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	private Set<UserRolePrivilegeModel> userRolePrivilegeModels = new HashSet<>();
 	
 	
 	
-	//@ManyToMany(mappedBy = "userRole",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	
-	//private Set<UserModel> user = new HashSet<>();
+
 
 	/**
 	 * @return the roleIdPK

@@ -32,6 +32,9 @@ public class UserModel {
 //	@JoinTable(name = "role_privilege", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	@OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	Set<UserRolePrivilegeModel> userRolePrivilegeModels = new HashSet<>();
+	
+	@OneToMany(mappedBy = "userModel", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	Set<HouseDetails> houseDetails;
 
 	/**
 	 * @return the userIdPK
@@ -130,6 +133,22 @@ public class UserModel {
 	public void setUserRolePrivilegeModels(Set<UserRolePrivilegeModel> userRolePrivilegeModels) {
 		this.userRolePrivilegeModels = userRolePrivilegeModels;
 	}
+
+	/**
+	 * @return the houseDetails
+	 */
+	public Set<HouseDetails> getHouseDetails() {
+		return houseDetails;
+	}
+
+	/**
+	 * @param houseDetails the houseDetails to set
+	 */
+	public void setHouseDetails(Set<HouseDetails> houseDetails) {
+		this.houseDetails = houseDetails;
+	}
+	
+	
 
 	
 

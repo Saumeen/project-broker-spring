@@ -1,5 +1,7 @@
 package com.project.broker.service;
 
+import java.util.List;
+
 import com.project.broker.dto.RoleDto;
 
 public interface RolePrivilageService {
@@ -9,6 +11,8 @@ public interface RolePrivilageService {
 	 * @param roleDtos
 	 */
 	public void addRole(RoleDto roleDtos);
+	
+	public List<String> getPrivilegeByRole(String roleNames);
 	
 	
 	

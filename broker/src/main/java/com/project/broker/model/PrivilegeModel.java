@@ -25,9 +25,6 @@ public class PrivilegeModel {
 
 	private String privilageName;
 
-	// @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	// @JoinTable(name = "role_privilege", joinColumns = @JoinColumn(name =
-	// "privilege_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	@OneToMany(mappedBy = "privilage", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	Set<UserRolePrivilegeModel> userRolePrivilegeModels = new HashSet<>();
 

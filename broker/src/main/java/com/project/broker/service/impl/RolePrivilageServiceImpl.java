@@ -1,5 +1,6 @@
 package com.project.broker.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,13 +30,16 @@ public class RolePrivilageServiceImpl implements RolePrivilageService {
 	@Autowired
 	private UserRolePrivilegeRepository userRolePrivilegeRepo;
 
+	
+	
+	
 	@Override
 	public void addRole(RoleDto roleDto) {
 
-		RoleModel role = roleRepository.findByRoleName(roleDto.getRoleName());
-		if (role == null) {
-			role = new RoleModel();
-			role.setRoleName(roleDto.getRoleName());
+		RoleModel roleModel = roleRepository.findByRoleName(roleDto.getRoleName());
+		if (roleModel == null) {
+			roleModel = new RoleModel();
+			roleModel.setRoleName(roleDto.getRoleName());
 			for (String pri : roleDto.getPrivilages()) {
 				PrivilegeModel privilegeTemp = privilegeRepo.findByPrivilageName(pri);
 				UserRolePrivilegeModel userRolePrivilegeModel = new UserRolePrivilegeModel();
@@ -51,12 +55,33 @@ public class RolePrivilageServiceImpl implements RolePrivilageService {
 
 				}
 
-				userRolePrivilegeModel.setRole(role);
+				userRolePrivilegeModel.setRole(roleModel);
 				userRolePrivilegeRepo.save(userRolePrivilegeModel);
 
 			}
 
 		}
+
+	}
+
+	@Override
+	public List<String> getPrivilegeByRole(String roleName) {
+		
+		
+		
+
+		RoleModel roleModel = roleRepository.findByRoleName(roleName.toUpperCase());
+
+		List<UserRolePrivilegeModel> findByRole = userRolePrivilegeRepo.findByRole(roleModel);
+
+		List<String> privilegeList = new ArrayList<>();
+		findByRole.forEach(privilege -> {
+			if (privilege.getPrivilage() != null) {
+				privilegeList.add(privilege.getPrivilage().getPrivilageName());
+			}
+		});
+
+		return privilegeList;
 
 	}
 
