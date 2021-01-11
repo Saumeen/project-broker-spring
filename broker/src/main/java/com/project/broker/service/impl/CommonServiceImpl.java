@@ -24,12 +24,15 @@ public class CommonServiceImpl implements CommonService {
 	@Override
 	public String setIpAddress(IpDto ipDto) {
 
-
-		IpLocationModel ipLocationModel = new IpLocationModel();
-		ipLocationModel.setIpAddres(ipDto.getIpAddress());
-		ipLocationModel.setUri(ipDto.getUri());
-		ipLocationRepo.save(ipLocationModel);
-
+		IpLocationModel locationModel = ipLocationRepo.findByIpAddressAndUri(ipDto.getIpAddress(), ipDto.getUri());
+		if (locationModel == null) {
+			locationModel = new IpLocationModel();
+			locationModel.setIpAddress(ipDto.getIpAddress());
+			locationModel.setUri(ipDto.getUri());
+		} else {
+			locationModel.setCounter(locationModel.getCounter() + 1);
+		}
+		ipLocationRepo.save(locationModel);
 		return ipDto.getIpAddress();
 	}
 

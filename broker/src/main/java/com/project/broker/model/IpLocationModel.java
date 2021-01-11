@@ -12,12 +12,27 @@ public class IpLocationModel {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
-	private String ipAddres;
+	private String ipAddress;
 	private String uri;
 	
 	
+	private int counter;
 	
 	
+
+	/**
+	 * @return the counter
+	 */
+	public int getCounter() {
+		return counter;
+	}
+
+	/**
+	 * @param counter the counter to set
+	 */
+	public void setCounter(int counter) {
+		this.counter = counter;
+	}
 
 	/**
 	 * @return the uri
@@ -48,20 +63,20 @@ public class IpLocationModel {
 	}
 
 	/**
-	 * @return the ipAddres
+	 * @return the ipAddress
 	 */
-	public String getIpAddres() {
-		return ipAddres;
+	public String getIpAddress() {
+		return ipAddress;
 	}
 
 	/**
-	 * @param ipAddres the ipAddres to set
+	 * @param ipAddress the ipAddress to set
 	 */
-	public void setIpAddres(String ipAddres) {
-		this.ipAddres = ipAddres;
+	public void setIpAddress(String ipAddress) {
+		this.ipAddress = ipAddress;
 	}
-	
-	
+
+
 	
 
 }

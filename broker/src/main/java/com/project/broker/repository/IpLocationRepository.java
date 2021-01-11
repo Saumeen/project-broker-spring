@@ -8,4 +8,6 @@ import com.project.broker.model.IpLocationModel;
 @Repository
 public interface IpLocationRepository extends JpaRepository<IpLocationModel,Long> {
 
+	
+	public IpLocationModel findByIpAddressAndUri(String ipAddress,String uri);
 }
