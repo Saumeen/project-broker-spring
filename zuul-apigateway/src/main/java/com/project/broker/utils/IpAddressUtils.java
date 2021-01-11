@@ -29,17 +29,7 @@ public class IpAddressUtils {
 	private final String LOCALHOST_IPV6 = "0:0:0:0:0:0:0:1";
 
 	public String getIpAddress() {
-//		String remoteAddr = "";
-//
-//		if (request != null) {
-//			remoteAddr = request.getHeader("X-FORWARDED-FOR");
-//
-//			if (remoteAddr == null || "".equals(remoteAddr)) {
-//				remoteAddr = request.getRemoteAddr();
-//			}
-//		}
-//
-//		log.info("Remote address is ::: {}", remoteAddr);
+
 		
 		String ipAddress = request.getHeader("X-Forwarded-For");
 		if(StringUtils.isEmpty(ipAddress) || "unknown".equalsIgnoreCase(ipAddress)) {
